@@ -1,0 +1,7 @@
+user_role_assigner.settings_form:
+  path: '/admin/config/system/user-role-assigner'
+  defaults:
+    _title: 'User Role Assigner settings'
+    _form: 'Drupal\user_role_assigner\Form\SettingsForm'
+  requirements:
+    _permission: 'administer user_role_assigner configuration'

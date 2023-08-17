@@ -1,0 +1,38 @@
+uuid: 003128b6-3c1e-4125-a3ce-a540572e4782
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.notice_board
+  module:
+    - system
+    - user
+    - views
+  theme:
+    - b5subtheme
+id: b5subtheme_views_block__notice_board_block_1
+theme: b5subtheme
+region: content
+weight: 0
+provider: null
+plugin: 'views_block:notice_board-block_1'
+settings:
+  id: 'views_block:notice_board-block_1'
+  label: 'Notice Board'
+  label_display: visible
+  provider: views
+  views_label: 'Notice Board'
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /home
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      anonymous: anonymous
+      authenticated: authenticated

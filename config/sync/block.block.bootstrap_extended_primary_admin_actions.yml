@@ -1,0 +1,20 @@
+uuid: 80ab0c27-da02-4c13-8ca1-dec68c87d22e
+langcode: en
+status: true
+dependencies:
+  theme:
+    - bootstrap_extended
+_core:
+  default_config_hash: Q9_2whdOj1YIomfvsIfopROW4FT_X5pY0DjdOiOaQ5U
+id: bootstrap_extended_primary_admin_actions
+theme: bootstrap_extended
+region: header
+weight: -5
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Primary admin actions'
+  label_display: '0'
+  provider: core
+visibility: {  }

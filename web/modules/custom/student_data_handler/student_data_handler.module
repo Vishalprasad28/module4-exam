@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Student Data Handler module.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function student_data_handler_theme($existing, $type, $theme, $path) {
+  $information = [
+    'active_student_list' => [
+      'render_element' => 'children',
+      'template' => 'active-student-list',
+      'path' => $path . '/templates',
+      'variables' => [
+        'data' => NULL,
+      ],
+    ],
+  ];
+  return $information;
+}

@@ -1,0 +1,7 @@
+block.settings.active_students:
+  type: block_settings
+  label: 'Active students block'
+  mapping:
+    limit:
+      type: integer
+      label: 'Limit'
