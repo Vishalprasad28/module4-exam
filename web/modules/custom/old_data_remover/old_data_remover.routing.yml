@@ -1,0 +1,7 @@
+old_data_remover.notice_remover:
+  path: '/old-data-remover/notice-remover'
+  defaults:
+    _title: 'Notice Remover'
+    _form: 'Drupal\old_data_remover\Form\NoticeRemover'
+  requirements:
+    _permission: 'administer account settings'

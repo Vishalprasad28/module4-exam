@@ -1,0 +1,21 @@
+uuid: 70ff7ac3-d866-4348-9510-a33422de3dec
+langcode: en
+status: true
+dependencies:
+  module:
+    - student_data_handler
+  theme:
+    - bootstrap5
+id: bootstrap5_activestudents
+theme: bootstrap5
+region: sidebar_first
+weight: 0
+provider: null
+plugin: active_students
+settings:
+  id: active_students
+  label: 'Active students'
+  label_display: visible
+  provider: student_data_handler
+  limit: 5
+visibility: {  }

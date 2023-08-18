@@ -1,0 +1,6 @@
+student_data_handler.settings:
+  title: API Key Generator
+  description: Generate the API Key for yourself.
+  parent: system.admin_config_system
+  route_name: student_data_handler.settings
+  weight: 10

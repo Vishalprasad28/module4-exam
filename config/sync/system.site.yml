@@ -2,13 +2,14 @@ _core:
   default_config_hash: VDJxTZtQR21qB4lvOq8zszJZLvLKrSPQpdn2E3T71Ww
 langcode: en
 uuid: 319dc4bf-bfc4-4ddc-a617-24821b657dd2
-name: 'Module4 Exam'
+name: 'Student Portal'
 mail: vishaldemo28@gmail.com
 slogan: ''
 page:
   403: ''
   404: ''
-  front: /node
+  front: /node/1
 admin_compact_mode: false
 weight_select_max: 100
 default_langcode: en
+mail_notification: ''

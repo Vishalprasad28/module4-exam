@@ -1,0 +1,21 @@
+uuid: 49e0a9ac-d23e-4ec0-b486-277c7844f3b5
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.subject
+  module:
+    - node
+id: academic_head
+label: 'Academic Head'
+weight: 4
+is_admin: null
+permissions:
+  - 'create subject content'
+  - 'delete any subject content'
+  - 'delete own subject content'
+  - 'delete subject revisions'
+  - 'edit any subject content'
+  - 'edit own subject content'
+  - 'revert subject revisions'
+  - 'view subject revisions'

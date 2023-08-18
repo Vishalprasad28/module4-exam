@@ -1,0 +1,125 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for User Role Assigner module.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\user\Entity\User;
+use Drupal\user\UserInterface;
+
+/**
+ * Implements hook_user_create().
+ */
+function user_role_assigner_user_insert(UserInterface $user) {
+  $config = \Drupal::configFactory()->getEditable('user_role_assigner.settings');
+
+  if ($config->get('method') == 'admin_assigns') {
+    return;
+  }
+  else if ($config->get('method') == 'auto_assign') {
+    if (assign_roles($user, $config->get('roles_to_assign'))) {
+      \Drupal::messenger()->addMessage(t(
+        'Your Account has been created'
+      ));
+    }
+  }
+  // Sending mail to the user.
+  send_mail($user);
+}
+
+/**
+ * Function to assign user some roles.
+ * 
+ * @param \Drupal\user\UserInterface $user
+ *   Takes the current user <object data="
+ * @param array $roles
+ *   Takes the user roles to assign.
+ * 
+ * @return bool
+ *   returns bool basedon status of operation performed.
+ */
+function assign_roles(UserInterface $user, array $roles) {
+  try {
+    foreach ($roles as $role) {
+      $user->addRole($role);
+    }
+    $user->activate();
+    $user->save();
+    return TRUE;
+  }
+  catch (\Exception $e) {
+    return FALSE;
+  }
+}
+
+/**
+ * Implements hook_user_login()
+ */
+function user_role_assigner_form_user_login_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $form['full_name'] = [
+    '#type' => 'textfield',
+    '#title' => t('Full Name'),
+    '#weight' => -1,
+    '#required' => TRUE,
+  ];
+  $form['#validate'][] = 'validate_name';
+}
+
+/**
+ * Function to validate the user's full name field value.
+ * 
+ * @param array $form
+ *   Takes the $form array.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Takes the form state value.
+ * 
+ * @return bool
+ */
+function validate_name(&$form, $form_state) {
+  $user = user_load_by_name($form_state->getValue('name'));
+  if ($user->get('field_full_name')->value != $form_state->getValue('full_name')) {
+    $form_state->setErrorByName('full_name', t('Enter the valid name'));
+  }
+  $form_state->setRedirect('<front>');
+}
+
+/**
+* Implements hook_mail().
+*/
+function user_role_assigner_mail($key, &$message, $params) {
+  $options = [
+    'langcode' => $message['langcode'],
+  ];
+ 
+  switch ($key) {
+    case 'register_user':
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = t('Node created: @title', array('@title' => $params['node_title']), $options);
+      $message['body'][] = $params['message'];
+      break;
+  }
+}
+
+/**
+ * 
+ */
+function send_mail(User $user) {
+  $mailManager = \Drupal::service('plugin.manager.mail');
+  $module = 'user_role_assigner';
+  $key = 'register_user';
+  $to = $user->getEmail();
+  $params['message'] = $user->get('field_full_name')->value;
+  $params['node_title'] = $user->getAccountName();
+  $langcode = $user->getPreferredLangcode();
+  $send = true;
+
+  $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+  if ($result['result'] !== true) {
+    \Drupal::messenger()->addWarning(t('There was a problem sending your message and it was not sent.'));
+  }
+  else {
+    \Drupal::messenger()->addMessage(t('Your message has been sent.'));
+  }
+}

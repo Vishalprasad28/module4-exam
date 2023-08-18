@@ -1,0 +1,21 @@
+_core:
+  default_config_hash: HENvUIeX6xNPGRB1w3z6rT9a71LM_hKXATF6XrM9WvM
+smtp_on: true
+smtp_host: smtp.gmail.com
+smtp_hostbackup: smtp.gmail.com
+smtp_port: '465'
+smtp_protocol: ssl
+smtp_autotls: true
+smtp_timeout: 30
+smtp_username: vishaldemo28@gmail.com
+smtp_password: qneqyqqeyvmaipoi
+smtp_from: vishaldemo28@gmail.com
+smtp_fromname: 'Student Portal'
+smtp_client_hostname: localhost
+smtp_client_helo: ''
+smtp_allowhtml: '1'
+smtp_test_address: vishalp282001@gmail.com
+smtp_reroute_address: ''
+smtp_debugging: true
+prev_mail_system: php_mail
+smtp_keepalive: true

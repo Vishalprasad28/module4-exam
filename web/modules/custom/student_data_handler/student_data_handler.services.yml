@@ -1,0 +1,4 @@
+services:
+  students.handler:
+    class: '\Drupal\student_data_handler\services\StudentServiceClass'
+    arguments: ['@current_user', '@datetime.time', '@database']

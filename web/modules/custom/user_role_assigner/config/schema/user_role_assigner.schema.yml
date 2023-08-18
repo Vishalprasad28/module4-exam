@@ -1,0 +1,11 @@
+# Schema for the configuration files of the User Role Assigner module.
+user_role_assigner.settings:
+  type: config_object
+  label: 'User Role Assigner settings'
+  mapping:
+    roles_to_assign:
+      type: array
+      label: 'Roles to Assign'
+    method:
+      type: string
+      label: 'Method'

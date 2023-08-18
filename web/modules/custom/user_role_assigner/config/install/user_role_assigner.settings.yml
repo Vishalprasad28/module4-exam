@@ -1,0 +1,3 @@
+roles_to_assign:
+  - 'content_editor'
+method: 'admin_assigns'
