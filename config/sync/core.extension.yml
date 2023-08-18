@@ -34,13 +34,17 @@ module:
   menu_ui: 0
   mysql: 0
   node: 0
+  old_data_remover: 0
   options: 0
   page_cache: 0
   password_field: 0
   path: 0
   path_alias: 0
   phone_number: 0
+  rest: 0
+  restui: 0
   search: 0
+  serialization: 0
   shortcut: 0
   smtp: 0
   student_data_handler: 0
@@ -51,6 +55,7 @@ module:
   tour: 0
   update: 0
   user: 0
+  user_registrationpassword: 0
   user_role_assigner: 0
   views_ui: 0
   views: 10

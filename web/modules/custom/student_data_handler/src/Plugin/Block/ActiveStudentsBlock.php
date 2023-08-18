@@ -97,13 +97,12 @@ class ActiveStudentsBlock extends BlockBase implements ContainerFactoryPluginInt
    */
   public function build(): array {
     $data = $this->constructUserData();
-
     $build['content'] = [
       '#type' => 'theme',
       '#theme' => 'active_student_list',
       '#data' => $data,
       '#cache' => [
-        'max-age' => 0,
+        'tags' => ['active:users'],
       ],
     ];
 
@@ -126,7 +125,7 @@ class ActiveStudentsBlock extends BlockBase implements ContainerFactoryPluginInt
     if (isset($users)) {
       foreach ($users as $user) {
         if (in_array('students', $user->getRoles())) {
-          $data[] = $user->getAccountName();
+          $data[] = $user->get('field_full_name')->value;
         }
         if (count($data) >= $this->configuration['limit']) {
           break;
@@ -144,7 +143,6 @@ class ActiveStudentsBlock extends BlockBase implements ContainerFactoryPluginInt
    * {@inheritdoc}
    */
   protected function blockAccess(AccountInterface $account): AccessResult {
-    // @todo Evaluate the access condition here.
     return AccessResult::allowedIf(TRUE);
   }
 

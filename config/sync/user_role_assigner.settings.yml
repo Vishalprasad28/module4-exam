@@ -1,5 +1,5 @@
 _core:
   default_config_hash: dppnYtR3Y4WfYP1wAY4q7V4puPkZsPmW9SJuEbU70pQ
 roles_to_assign:
-  - content_editor
-method: admin_assigns
+  - students
+method: auto_assign

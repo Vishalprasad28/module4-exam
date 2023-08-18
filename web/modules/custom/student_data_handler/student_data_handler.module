@@ -5,6 +5,10 @@
  * Primary module hooks for Student Data Handler module.
  */
 
+use Drupal\Core\Cache\Cache;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\user\UserInterface;
+
 /**
  * Implements hook_theme().
  */
@@ -20,4 +24,18 @@ function student_data_handler_theme($existing, $type, $theme, $path) {
     ],
   ];
   return $information;
+}
+
+/**
+ * Implements hook_user_logout().
+ */
+function student_data_handler_user_logout(AccountInterface $account) {
+  Cache::invalidateTags(['active:users']);
+}
+
+/**
+ * Implements hook_user_login().
+ */
+function student_data_handler_user_login(UserInterface $account) {
+  Cache::invalidateTags(['active:users']);
 }

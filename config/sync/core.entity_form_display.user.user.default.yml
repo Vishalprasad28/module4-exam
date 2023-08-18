@@ -6,7 +6,6 @@ dependencies:
     - field.field.user.user.field_full_name
     - field.field.user.user.field_joining_year
     - field.field.user.user.field_passing_year
-    - field.field.user.user.field_password
     - field.field.user.user.field_phone_number
     - field.field.user.user.field_stream
     - field.field.user.user.user_picture
@@ -14,7 +13,6 @@ dependencies:
   module:
     - datetime
     - image
-    - password_field
     - phone_number
     - text
     - user
@@ -49,13 +47,6 @@ content:
     weight: 8
     region: content
     settings: {  }
-    third_party_settings: {  }
-  field_password:
-    type: PasswordWidget
-    weight: 5
-    region: content
-    settings:
-      size: 60
     third_party_settings: {  }
   field_phone_number:
     type: phone_number_default

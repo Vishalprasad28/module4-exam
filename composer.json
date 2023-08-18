@@ -28,7 +28,9 @@
         "drupal/password_field": "^2.0",
         "drupal/pathauto": "^1.11",
         "drupal/phone_number": "^2.0@alpha",
-        "drupal/smtp": "^1.2"
+        "drupal/restui": "^1.21",
+        "drupal/smtp": "^1.2",
+        "drupal/user_registrationpassword": "^2.0"
     },
     "conflict": {
         "drupal/drupal": "*"

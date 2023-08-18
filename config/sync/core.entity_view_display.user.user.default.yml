@@ -6,7 +6,6 @@ dependencies:
     - field.field.user.user.field_full_name
     - field.field.user.user.field_joining_year
     - field.field.user.user.field_passing_year
-    - field.field.user.user.field_password
     - field.field.user.user.field_phone_number
     - field.field.user.user.field_stream
     - field.field.user.user.user_picture
@@ -14,7 +13,6 @@ dependencies:
   module:
     - datetime
     - image
-    - password_field
     - phone_number
     - text
     - user
@@ -30,7 +28,7 @@ content:
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 6
+    weight: 2
     region: content
   field_joining_year:
     type: datetime_default
@@ -39,7 +37,7 @@ content:
       timezone_override: ''
       format_type: medium
     third_party_settings: {  }
-    weight: 11
+    weight: 4
     region: content
   field_passing_year:
     type: datetime_default
@@ -48,14 +46,7 @@ content:
       timezone_override: ''
       format_type: medium
     third_party_settings: {  }
-    weight: 12
-    region: content
-  field_password:
-    type: PasswordFieldFormatter
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 9
+    weight: 5
     region: content
   field_phone_number:
     type: phone_number_international
@@ -63,7 +54,7 @@ content:
     settings:
       as_link: false
     third_party_settings: {  }
-    weight: 13
+    weight: 6
     region: content
   field_stream:
     type: entity_reference_label
@@ -71,10 +62,12 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 10
+    weight: 3
     region: content
   member_for:
-    weight: 5
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
     region: content
   user_picture:
     type: image

@@ -1,4 +1,4 @@
-uuid: 51301b0c-f31d-46f4-82a4-6cc0859cca31
+uuid: ed2375ee-1197-4c31-82df-8f202ec87b14
 langcode: en
 status: true
 dependencies:
@@ -8,12 +8,10 @@ dependencies:
     - system
   theme:
     - b5subtheme
-_core:
-  default_config_hash: v4InHOxRV9UTTg824c1Wk4dzSiQ_CI4jnaSK1-5ModQ
-id: b5subtheme_account_menu
+id: b5subtheme_useraccountmenu
 theme: b5subtheme
-region: nav_additional
-weight: -7
+region: footer
+weight: 0
 provider: null
 plugin: 'system_menu_block:account'
 settings:

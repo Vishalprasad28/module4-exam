@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\user\Entity\User;
 use Drupal\user\UserInterface;
 
 /**
@@ -20,30 +21,12 @@ function user_role_assigner_user_insert(UserInterface $user) {
   else if ($config->get('method') == 'auto_assign') {
     if (assign_roles($user, $config->get('roles_to_assign'))) {
       \Drupal::messenger()->addMessage(t(
-        'Your Account has been created your Password is @password', [
-          '@password' => '@' . $user->getAccountName()
-        ]
+        'Your Account has been created'
       ));
     }
   }
-
-  $mailManager = \Drupal::service('plugin.manager.mail');
-  $module = 'user_role_assigner';
-  $key = 'create_user';
-  $to = \Drupal::currentUser()->getEmail();
-  $params['message'] = $user->get('field_full_name');
-  $params['node_title'] = $user->label();
-  $langcode = \Drupal::currentUser()->getPreferredLangcode();
-  $send = true;
-
-  $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
-  if ($result['result'] !== true) {
-    \Drupal::messenger()->addWarning(t('There was a problem sending your message and it was not sent.'));
-  }
-  else {
-    \Drupal::messenger()->addMessage(t('Your message has been sent.'));
-  }
-  
+  // Sending mail to the user.
+  send_mail($user);
 }
 
 /**
@@ -59,7 +42,6 @@ function user_role_assigner_user_insert(UserInterface $user) {
  */
 function assign_roles(UserInterface $user, array $roles) {
   try {
-    $user->setPassword('@' . $user->getAccountName());
     foreach ($roles as $role) {
       $user->addRole($role);
     }
@@ -82,7 +64,7 @@ function user_role_assigner_form_user_login_form_alter(&$form, FormStateInterfac
     '#weight' => -1,
     '#required' => TRUE,
   ];
-  $form['#validate'] = ['validate_name'];
+  $form['#validate'][] = 'validate_name';
 }
 
 /**
@@ -97,12 +79,10 @@ function user_role_assigner_form_user_login_form_alter(&$form, FormStateInterfac
  */
 function validate_name(&$form, $form_state) {
   $user = user_load_by_name($form_state->getValue('name'));
-  if ($user->get('field_full_name') != $form_state->getValue('full_name')) {
+  if ($user->get('field_full_name')->value != $form_state->getValue('full_name')) {
     $form_state->setErrorByName('full_name', t('Enter the valid name'));
   }
-  else {
-    return TRUE;
-  }
+  $form_state->setRedirect('<front>');
 }
 
 /**
@@ -114,7 +94,7 @@ function user_role_assigner_mail($key, &$message, $params) {
   ];
  
   switch ($key) {
-    case 'create_user':
+    case 'register_user':
       $message['from'] = \Drupal::config('system.site')->get('mail');
       $message['subject'] = t('Node created: @title', array('@title' => $params['node_title']), $options);
       $message['body'][] = $params['message'];
@@ -123,16 +103,16 @@ function user_role_assigner_mail($key, &$message, $params) {
 }
 
 /**
- * Implements hook_node_insert().
+ * 
  */
-function user_role_assigner__insert(Node $entity) {
+function send_mail(User $user) {
   $mailManager = \Drupal::service('plugin.manager.mail');
   $module = 'user_role_assigner';
-  $key = 'create_node';
-  $to = \Drupal::currentUser()->getEmail();
-  $params['message'] = $entity->get('body')->value;
-  $params['node_title'] = $entity->label();
-  $langcode = \Drupal::currentUser()->getPreferredLangcode();
+  $key = 'register_user';
+  $to = $user->getEmail();
+  $params['message'] = $user->get('field_full_name')->value;
+  $params['node_title'] = $user->getAccountName();
+  $langcode = $user->getPreferredLangcode();
   $send = true;
 
   $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
