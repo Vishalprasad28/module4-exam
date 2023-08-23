@@ -1,0 +1,4 @@
+administer user_role_assigner configuration:
+  title: 'Administer user_role_assigner configuration'
+  description: 'Optional description.'
+  restrict access: true

@@ -1,0 +1,26 @@
+uuid: 938ae05d-a95f-4729-a4bc-182ef1b0a958
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - b5subtheme
+_core:
+  default_config_hash: O7B3JszRMFVYAbojw_YydZMTMwyFJpYuxnyyPyi7l3g
+id: b5subtheme_page_title
+theme: b5subtheme
+region: content
+weight: -7
+provider: null
+plugin: page_title_block
+settings:
+  id: page_title_block
+  label: 'Page title'
+  label_display: '0'
+  provider: core
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: "/dashboard\r\n/home"

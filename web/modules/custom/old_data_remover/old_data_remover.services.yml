@@ -1,0 +1,4 @@
+services:
+  old_data_remover.remove_data:
+    class: '\Drupal\old_data_remover\Services\DataremovalService'
+    arguments: ['@database']

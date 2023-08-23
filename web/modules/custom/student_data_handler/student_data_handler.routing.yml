@@ -1,0 +1,29 @@
+student_data_handler.settings:
+  path: '/admin/config/system/settings'
+  defaults:
+    _title: 'Settings'
+    _form: 'Drupal\student_data_handler\Form\SettingsForm'
+  requirements:
+    _permission: 'administer site configuration'
+
+student_data_handler.api:
+  path: '/student/api/{limit}'
+  defaults:
+    _title: 'Api'
+    _controller: '\Drupal\student_data_handler\Controller\ApiController::invoke'
+    limit: 1
+  methods: [GET]
+  requirements:
+    _permission: 'access content'
+  options:
+    limit:
+      type: integer
+
+student_data_handler.api_data_fetch:
+  path: '/api-data-fetch'
+  defaults:
+    _title: 'Api Data Fetch'
+    _controller: '\Drupal\student_data_handler\Controller\ApiDataFetch::invoke'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'

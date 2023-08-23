@@ -1,0 +1,56 @@
+uuid: 49e0a9ac-d23e-4ec0-b486-277c7844f3b5
+langcode: en
+status: true
+dependencies:
+  config:
+    - media.type.audio
+    - media.type.document
+    - media.type.image
+    - media.type.remote_video
+    - media.type.video
+    - node.type.subject
+  module:
+    - media
+    - node
+id: academic_head
+label: 'Academic Head'
+weight: 4
+is_admin: null
+permissions:
+  - 'create audio media'
+  - 'create document media'
+  - 'create image media'
+  - 'create media'
+  - 'create remote_video media'
+  - 'create subject content'
+  - 'create video media'
+  - 'delete any audio media'
+  - 'delete any document media'
+  - 'delete any image media'
+  - 'delete any media'
+  - 'delete any remote_video media'
+  - 'delete any subject content'
+  - 'delete any video media'
+  - 'delete media'
+  - 'delete own audio media'
+  - 'delete own document media'
+  - 'delete own image media'
+  - 'delete own remote_video media'
+  - 'delete own subject content'
+  - 'delete own video media'
+  - 'delete subject revisions'
+  - 'edit any audio media'
+  - 'edit any document media'
+  - 'edit any image media'
+  - 'edit any remote_video media'
+  - 'edit any subject content'
+  - 'edit any video media'
+  - 'edit own audio media'
+  - 'edit own document media'
+  - 'edit own image media'
+  - 'edit own remote_video media'
+  - 'edit own subject content'
+  - 'edit own video media'
+  - 'revert subject revisions'
+  - 'update any media'
+  - 'view subject revisions'

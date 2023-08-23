@@ -1,0 +1,22 @@
+uuid: bea2393b-24c2-4450-be5e-77a67f47ae70
+langcode: en
+status: true
+dependencies:
+  theme:
+    - bootstrap_extended
+_core:
+  default_config_hash: ydSxdq7R66I8UMC460rOzlfzvlUL4VRbdwc6z9DWaUI
+id: bootstrap_extended_secondary_local_tasks
+theme: bootstrap_extended
+region: header
+weight: -2
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: 'Secondary tabs'
+  label_display: '0'
+  provider: core
+  primary: false
+  secondary: true
+visibility: {  }

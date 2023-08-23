@@ -13,26 +13,42 @@ module:
   contextual: 0
   datetime: 0
   dblog: 0
+  devel: 0
+  devel_generate: 0
   dynamic_page_cache: 0
   editor: 0
   field: 0
   field_ui: 0
   file: 0
+  file_download_link: 0
+  file_download_link_media: 0
   filter: 0
   help: 0
   history: 0
   image: 0
   link: 0
+  login_emailusername: 0
+  maillog: 0
+  media: 0
+  media_library: 0
   menu_link_content: 0
   menu_ui: 0
   mysql: 0
   node: 0
+  old_data_remover: 0
   options: 0
   page_cache: 0
+  password_field: 0
   path: 0
   path_alias: 0
+  phone_number: 0
+  rest: 0
+  restui: 0
   search: 0
+  serialization: 0
   shortcut: 0
+  smtp: 0
+  student_data_handler: 0
   system: 0
   taxonomy: 0
   text: 0
@@ -40,10 +56,16 @@ module:
   tour: 0
   update: 0
   user: 0
+  user_registrationpassword: 0
+  user_role_assigner: 0
   views_ui: 0
   views: 10
   standard: 1000
 theme:
   olivero: 0
   claro: 0
+  stable9: 0
+  bootstrap5: 0
+  bootstrap_extended: 0
+  b5subtheme: 0
 profile: standard

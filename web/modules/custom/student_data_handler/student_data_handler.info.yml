@@ -1,0 +1,5 @@
+name: 'Student Data Handler'
+type: module
+description: 'A Module to handle the students data.'
+package: Custom
+core_version_requirement: ^10

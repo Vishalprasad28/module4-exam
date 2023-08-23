@@ -1,0 +1,6 @@
+user_role_assigner.settings_form:
+  title: 'User Role Assigner'
+  description: 'Configure User Role Assigner.'
+  parent: system.admin_config_system
+  route_name: user_role_assigner.settings_form
+  weight: 2

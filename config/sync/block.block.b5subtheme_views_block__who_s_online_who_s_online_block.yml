@@ -1,0 +1,29 @@
+uuid: 9360f6b4-0fe3-4ded-99eb-c7d95ad5f9e1
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.who_s_online
+  module:
+    - system
+    - views
+  theme:
+    - b5subtheme
+id: b5subtheme_views_block__who_s_online_who_s_online_block
+theme: b5subtheme
+region: content
+weight: 1
+provider: null
+plugin: 'views_block:who_s_online-who_s_online_block'
+settings:
+  id: 'views_block:who_s_online-who_s_online_block'
+  label: 'Online status'
+  label_display: visible
+  provider: views
+  views_label: 'Online status'
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /admin-dashboard

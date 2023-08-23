@@ -1,0 +1,7 @@
+name: 'Old Data Remover'
+type: module
+description: 'Removes the depricated entities from the site.'
+package: Custom
+core_version_requirement: ^10
+dependencies:
+  - drupal:node

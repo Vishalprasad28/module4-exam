@@ -1,0 +1,33 @@
+uuid: d812e36f-5739-4d9e-98bc-ec387a5f92ce
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.sign-in-out
+  module:
+    - system
+    - user
+  theme:
+    - b5subtheme
+id: b5subtheme_signinout
+theme: b5subtheme
+region: nav_additional
+weight: 0
+provider: null
+plugin: 'system_menu_block:sign-in-out'
+settings:
+  id: 'system_menu_block:sign-in-out'
+  label: sign-in-out
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility:
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'
+    roles:
+      anonymous: anonymous

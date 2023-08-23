@@ -1,0 +1,20 @@
+uuid: 4f3f8c84-d16e-493a-94c6-ba10a6059544
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+    - node
+id: node.field_study_material
+field_name: field_study_material
+entity_type: node
+type: entity_reference
+settings:
+  target_type: media
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

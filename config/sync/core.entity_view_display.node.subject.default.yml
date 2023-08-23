@@ -1,0 +1,47 @@
+uuid: 027e51e9-7ca3-4300-80f3-22d88a87ad37
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.subject.body
+    - field.field.node.subject.field_stream
+    - field.field.node.subject.field_study_material
+    - node.type.subject
+  module:
+    - text
+    - user
+id: node.subject.default
+targetEntityType: node
+bundle: subject
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_stream:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_study_material:
+    type: entity_reference_entity_view
+    label: above
+    settings:
+      view_mode: full
+      link: false
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

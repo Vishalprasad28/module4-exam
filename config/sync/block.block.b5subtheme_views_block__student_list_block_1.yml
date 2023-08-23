@@ -1,0 +1,29 @@
+uuid: 6f3221f8-230e-4fb1-90fd-4d6c00fbce4b
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.student_list
+  module:
+    - system
+    - views
+  theme:
+    - b5subtheme
+id: b5subtheme_views_block__student_list_block_1
+theme: b5subtheme
+region: content
+weight: -1
+provider: null
+plugin: 'views_block:student_list-block_1'
+settings:
+  id: 'views_block:student_list-block_1'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /admin-dashboard

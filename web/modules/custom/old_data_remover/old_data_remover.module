@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * @file
+ * Contains the hook implementations.
+ */
+
+use Drupal\Core\Datetime\DrupalDateTime;
+
+/**
+ * Implements hook_cron().
+ */
+function old_data_remover_cron() {
+  $data_remover = \Drupal::service('old_data_remover.remove_data');
+  $data_remover->deleteOldNotices();
+  $data_remover->deleteGraduatedStudents();
+}
