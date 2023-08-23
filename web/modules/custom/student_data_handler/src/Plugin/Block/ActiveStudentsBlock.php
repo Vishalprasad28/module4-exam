@@ -132,9 +132,6 @@ class ActiveStudentsBlock extends BlockBase implements ContainerFactoryPluginInt
         }
       }
     }
-    else {
-      $data[] = 'No Users are active.';
-    }
 
     return $data;
   }

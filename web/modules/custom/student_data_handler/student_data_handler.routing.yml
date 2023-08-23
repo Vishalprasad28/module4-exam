@@ -14,7 +14,16 @@ student_data_handler.api:
     limit: 1
   methods: [GET]
   requirements:
-    _custom_access: '\Drupal\student_data_handler\Controller\ApiController::access'
+    _permission: 'access content'
   options:
     limit:
       type: integer
+
+student_data_handler.api_data_fetch:
+  path: '/api-data-fetch'
+  defaults:
+    _title: 'Api Data Fetch'
+    _controller: '\Drupal\student_data_handler\Controller\ApiDataFetch::invoke'
+  methods: [GET]
+  requirements:
+    _permission: 'access content'

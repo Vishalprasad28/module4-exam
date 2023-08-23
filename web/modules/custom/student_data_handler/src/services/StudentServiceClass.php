@@ -12,7 +12,7 @@ use Drupal\Core\Database\Connection;
 class StudentServiceClass {
 
   /**
-   * Contains the DateTime <object data="
+   * Contains the DateTime object.
    *
    * @var \Drupal\Component\Datetime\TimeInterface
    */
@@ -37,7 +37,6 @@ class StudentServiceClass {
    *
    * @param \Drupal\Core\Session\AccountInterface $user
    *   Takes the current user account object.
-   *
    * @param \Drupal\Component\Datetime\TimeInterface $time
    *   Contains the TimeInteface object for date and time handling.
    * @param \Drupal\Core\Database\Connection $connection

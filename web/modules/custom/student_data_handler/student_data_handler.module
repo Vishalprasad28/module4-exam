@@ -5,7 +5,10 @@
  * Primary module hooks for Student Data Handler module.
  */
 
+use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Cache\Cache;
+use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\user\UserInterface;
 
@@ -38,4 +41,38 @@ function student_data_handler_user_logout(AccountInterface $account) {
  */
 function student_data_handler_user_login(UserInterface $account) {
   Cache::invalidateTags(['active:users']);
+}
+
+/**
+ * Implements hook_node_access().
+ */
+function student_data_handler_node_access(EntityInterface $entity, $operation, AccountInterface $account) {
+  if (!$account->isAnonymous()) {
+    $user = \Drupal::entityTypeManager()->getStorage('user')->load($account->id());
+    $user_stream = $user->get('field_stream')->getString();
+
+    // Fteching the current date and time to compare with the user's passing
+    // year value.
+    $currentDateTime = new DrupalDateTime();
+    $date = $currentDateTime->format('Y-m-d');
+    
+    // Checking if the node is of type subject.
+    if ($entity->bundle() == 'subject' && $entity->hasField('field_stream')) {
+      $subject_stream = explode(',', $entity->get('field_stream')->getString());
+
+      // Checking if the node operation is view and userhas the student role
+      // and the student's passing year is greater thancurrent date.
+      if ($operation == 'view' &&
+        in_array('students', $user->getRoles()) &&
+        in_array($user_stream, $subject_stream) &&
+        $user->get('field_passing_year')->getString() > $date) {
+        return AccessResult::allowed();
+      }
+      else {
+        return AccessResult::forbidden();
+      }
+    }
+
+    return AccessResult::neutral();
+  }
 }

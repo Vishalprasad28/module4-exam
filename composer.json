@@ -24,6 +24,7 @@
         "drupal/devel": "^5.0",
         "drupal/devel_entity_updates": "^4.1",
         "drupal/file_download_link": "^2.0",
+        "drupal/login_emailusername": "^2.1",
         "drupal/maillog": "^1.1",
         "drupal/password_field": "^2.0",
         "drupal/pathauto": "^1.11",

@@ -25,8 +25,13 @@ function user_role_assigner_user_insert(UserInterface $user) {
       ));
     }
   }
+  $message = 'Username:' . ' ' . $user->getAccountName() . '<br>' .
+             'Student Id:' . ' ' . $user->id() . '<br>' .
+             'Student email:' . ' ' . $user->getEmail() . '<br>' .
+             'Student Phone:' . ' ' . $user->get('field_phone_number')->value;
+
   // Sending mail to the user.
-  send_mail($user);
+  send_mail($user, 'register_user', $message);
 }
 
 /**
@@ -58,13 +63,88 @@ function assign_roles(UserInterface $user, array $roles) {
  * Implements hook_user_login()
  */
 function user_role_assigner_form_user_login_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-  $form['full_name'] = [
+  unset($form['actions']);
+  if ($form_state->has('page') &&  $form_state->get('page') == 2) {
+    unset($form['name']);
+    unset($form['pass']);
+    otp_form($form, $form_state);
+  }
+  else {
+    $form['full_name'] = [
+      '#type' => 'textfield',
+      '#title' => t('Full Name'),
+      '#weight' => -1,
+      '#required' => TRUE,
+    ];
+    $form['send'] = [
+      '#type' => 'submit',
+      '#value' => t('Send'),
+      '#submit' => ['send_otp'],
+    ];
+    $form['#validate'][] = 'validate_name';
+  }
+}
+
+/**
+ * Function to send the otp and rebuild the form.
+ * 
+ * @param array $form
+ *   Takes the $form array.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Takes the form state value.
+ * 
+ * @return void
+ */
+function send_otp($form, FormStateInterface $form_state) {
+  $form_state->set('page', 2);
+  $form_state->setRebuild(TRUE);
+}
+
+/**
+ * Function to construct the otp form.
+ * 
+ * @param array $form
+ *   Takes the $form array.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Takes the form state value.
+ * 
+ * @return void
+ */
+function otp_form(&$form, $form_state) {
+  $form['otp_form'] = [
     '#type' => 'textfield',
-    '#title' => t('Full Name'),
-    '#weight' => -1,
+    '#title' => t('Enter the otp we have sent'),
     '#required' => TRUE,
   ];
-  $form['#validate'][] = 'validate_name';
+  $form['name'] = [
+    '#type' => 'hidden',
+    '#default_value' => $form_state->getValue('name'),
+  ];
+  $form['pass'] = [
+    '#type' => 'hidden',
+    '#default_value' => $form_state->getValue('pass'),
+  ];
+  $form['send'] = [
+    '#type' => 'submit',
+    '#value' => t('Log in'), 
+  ];
+  $form['#validate'][] = 'validate_otp';
+}
+
+/**
+ * Function to validate the otp.
+ * 
+ * @param array $form
+ *   Takes the $form array.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Takes the form state value.
+ * 
+ * @return void
+ */
+function validate_otp($form, $form_state) {
+  if ($form_state->getValue('otp_form') != $form_state->get('otp')) {
+    $form_state->setErrorByName('otp_form', t('Invalid OTP'));
+  }
 }
 
 /**
@@ -75,14 +155,23 @@ function user_role_assigner_form_user_login_form_alter(&$form, FormStateInterfac
  * @param \Drupal\Core\Form\FormStateInterface $form_state
  *   Takes the form state value.
  * 
- * @return bool
+ * @return void
  */
 function validate_name(&$form, $form_state) {
-  $user = user_load_by_name($form_state->getValue('name'));
-  if ($user->get('field_full_name')->value != $form_state->getValue('full_name')) {
-    $form_state->setErrorByName('full_name', t('Enter the valid name'));
+  $users = get_user_data($form_state->getValue('name'));
+  $otp = rand(10000, 99999);
+  $form_state->set('otp', $otp);
+  if (isset($users)) {
+    foreach ($users as $user) {
+      if (($user->get('field_full_name')->value != $form_state->getValue('full_name'))) {
+        $form_state->setErrorByName('full_name', t('Enter the valid name'));
+      }
+      else {
+        send_mail($users[0], 'send_otp', $otp);
+      }
+    }
   }
-  $form_state->setRedirect('<front>');
+
 }
 
 /**
@@ -92,34 +181,97 @@ function user_role_assigner_mail($key, &$message, $params) {
   $options = [
     'langcode' => $message['langcode'],
   ];
- 
+
   switch ($key) {
     case 'register_user':
       $message['from'] = \Drupal::config('system.site')->get('mail');
-      $message['subject'] = t('Node created: @title', array('@title' => $params['node_title']), $options);
+      $message['subject'] = t('New User registered: @title', array('@title' => $params['user_name']), $options);
+      $message['body'][] = $params['message'];
+      break;
+    case 'login_user':
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = t('User Logged in: @name', array('@name' => $params['user_name']), $options);
+      $message['body'][] = $params['message'];
+      break;
+    case 'send_otp':
+      $message['from'] = \Drupal::config('system.site')->get('mail');
+      $message['subject'] = t('User Logged in: @name', array('@name' => $params['user_name']), $options);
       $message['body'][] = $params['message'];
       break;
   }
 }
 
 /**
+ * Function to send mails.
  * 
+ * @param \Drupal\user\UserInterface $user
+ *   Takes the User Account Object.
+ * @param string $key
+ *   Takes the key to send a specific mail.
+ * @param string $message
+ *   Takes the message to be sent.
+ * 
+ * @return bool
+ *   Returns bool based on the status of otp being sent.
  */
-function send_mail(User $user) {
-  $mailManager = \Drupal::service('plugin.manager.mail');
+function send_mail(User $user, string $key, string $message) {
+  $mail_manager = \Drupal::service('plugin.manager.mail');
   $module = 'user_role_assigner';
-  $key = 'register_user';
   $to = $user->getEmail();
-  $params['message'] = $user->get('field_full_name')->value;
-  $params['node_title'] = $user->getAccountName();
+  $params['message'] = $message;
+  $params['user_name'] = $user->getAccountName();
   $langcode = $user->getPreferredLangcode();
   $send = true;
 
-  $result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, $send);
-  if ($result['result'] !== true) {
-    \Drupal::messenger()->addWarning(t('There was a problem sending your message and it was not sent.'));
+  $result = $mail_manager->mail($module, $key, $to, $langcode, $params, NULL, $send);
+
+  return $result['result'];
+}
+
+/**
+ * Function to fetch the user data by the form value entered.
+ * 
+ * @param string $name
+ *   Takes the username/email of the user.
+ * 
+ * @return array|NULL
+ *   Returns the array of user data found.
+ */
+function get_user_data(string $name) {
+  if (!filter_var($name, FILTER_VALIDATE_EMAIL)) {
+    $users = \Drupal::entityTypeManager()
+      ->getStorage('user')
+      ->loadByProperties(['name' => $name,]);
   }
   else {
-    \Drupal::messenger()->addMessage(t('Your message has been sent.'));
+    $users = \Drupal::entityTypeManager()
+      ->getStorage('user')
+      ->loadByProperties(['mail' => $name,]);
+  }
+
+  return array_values($users);
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function user_role_assigner_form_user_register_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  $form['#validate'][] = 'validate_year_value';
+}
+
+/**
+ * Function to validate the joining and passing year.
+ * 
+ * @param array $form
+ *   Takes the $form array.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   Takes the form state value.
+ * 
+ * @return void
+ */
+function validate_year_value(array $form, FormStateInterface $form_state) {
+  if ($form_state->getValue('field_joining_year')[0]['value']->format('Y-m-d') >=
+    $form_state->getValue('field_passing_year')[0]['value']->format('Y-m-d')) {
+    $form_state->setErrorByName('field_passing_year',t('Passing year should be greater than joining year'));
   }
 }

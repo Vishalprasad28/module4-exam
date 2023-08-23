@@ -16,14 +16,14 @@ class SettingsForm extends ConfigFormBase {
 
   /**
    * Contains the user's Account Object.
-   * 
+   *
    * @var \Drupal\Core\Session\AccountInterface
    */
   protected $user;
 
   /**
-   * Constructs the dependency for the user accont <object data="
-   * 
+   * Constructs the dependency for the user accont data.
+   *
    * @param \Drupal\Core\Session\AccountInterface $user
    *   Contains the User's Account Data.
    */
@@ -53,7 +53,7 @@ class SettingsForm extends ConfigFormBase {
   protected function getEditableConfigNames(): array {
     return ['student_data_handler.settings'];
   }
-  
+
   /**
    * {@inheritdoc}
    */
@@ -82,16 +82,16 @@ class SettingsForm extends ConfigFormBase {
 
   /**
    * Generates the API Key for the user.
-   * 
+   *
    * @param array $form
    *   Takes the form array.
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   Takes the formStateInterface Instance of the form.
-   * 
+   *
    * @return \Drupal\Core\Ajax\AjaxResponse
    *   Returns the ajax response.
    */
-  public function getApiKey($form, FormStateInterface $form_state) {
+  public function getApiKey(array $form, FormStateInterface $form_state) {
     $string = '0123456789abcdefghijklmnopqrstuvwxyz';
     // Generating a random API Key specific to the user.
     $key = str_shuffle($string);
@@ -112,4 +112,5 @@ class SettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {}
+
 }

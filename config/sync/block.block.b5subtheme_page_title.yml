@@ -2,6 +2,8 @@ uuid: 938ae05d-a95f-4729-a4bc-182ef1b0a958
 langcode: en
 status: true
 dependencies:
+  module:
+    - system
   theme:
     - b5subtheme
 _core:
@@ -9,7 +11,7 @@ _core:
 id: b5subtheme_page_title
 theme: b5subtheme
 region: content
-weight: -6
+weight: -7
 provider: null
 plugin: page_title_block
 settings:
@@ -17,4 +19,8 @@ settings:
   label: 'Page title'
   label_display: '0'
   provider: core
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    negate: true
+    pages: "/dashboard\r\n/home"

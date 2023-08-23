@@ -1,5 +1,9 @@
-<ul>
-{% for data_item in data %}
-  <li> {{ data_item }} </li>
-{% endfor %}
-</ul>
+{% if data %}
+  <ul>
+  {% for data_item in data %}
+    <li> {{ data_item }} </li>
+  {% endfor %}
+  </ul>
+{% else %}
+  <p>No Students are active</p>
+{% endif %}
